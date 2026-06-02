@@ -1,13 +1,17 @@
+# ── Python ────────────────────────────────────────────────────────────────────
 .venv/
-data/raw/
-.env
-references/*.pdf
 __pycache__/
 *.pyc
-*.log
-*.tex
+*.egg-info/
+# ── Credentials ───────────────────────────────────────────────────────────────
+.env
+# ── Data (never commit — regenerate with task pull / task clean) ──────────────
+data/raw/
+data/processed/
+# ── References (PDFs managed by Zotero) ──────────────────────────────────────
+references/*.pdf
+# ── Jupyter ───────────────────────────────────────────────────────────────────
 .ipynb_checkpoints/
+# ── OS ────────────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
-data/processed/
-*.parquet
