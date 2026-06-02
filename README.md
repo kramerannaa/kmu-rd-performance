@@ -1,25 +1,24 @@
-# KMU Nachhaltige Lieferketten & Green Logistics
+# Innovationsintensität und Firmenperformance europäischer KMU
 ### ExInt II | WU Vienna | SS 2026 | Anna Kramer
 
 ## Research Question
-Wie integrieren exportorientierte KMU Nachhaltigkeitsziele in ihre internationalen
-Supply-Chain-Entscheidungen, und welche institutionellen sowie ressourcenbedingten
-Faktoren beeinflussen diesen Prozess?
+Wie beeinflusst R&D Intensität die Firmenperformance bei europäischen KMU,
+und moderiert Firmengröße diesen Zusammenhang?
 
 ## Hypotheses
-- **H1:** Regulatorischer Druck (CSRD, CBAM, CSDDD) erhöht die Adoption
-  nachhaltiger Logistikpraktiken bei exportorientierten KMU.
+- **H1:** Höhere R&D Intensität führt zu besserer Firmenperformance
+  bei europäischen KMU.
+- **H2:** Firmengröße moderiert den Zusammenhang zwischen R&D
+  Intensität und Performance positiv.
 
 ## Theoretical Foundation
-**Institutional Theory (DiMaggio & Powell, 1983):**
-Regulativer Druck (CSRD, CBAM, CSDDD), normativer Druck (Kundenerwartungen
-aus Lieferketten) und mimetischer Druck zwingen KMU zur Adoption
-nachhaltiger Logistikpraktiken.
+**Absorptive Capacity (Cohen & Levinthal, 1990):**
+Firmen mit höherer R&D Intensität entwickeln eine stärkere Fähigkeit externes
+Wissen aufzunehmen und in Performance umzuwandeln.
 
 **Resource-Based View (Barney, 1991):**
-Die Fähigkeit zur Umsetzung hängt von internen Ressourcen ab — finanzielle,
-personelle und informationelle Kapazitäten bestimmen, ob KMU auf
-institutionellen Druck substanziell oder nur symbolisch reagieren.
+R&D Investitionen schaffen einzigartige, schwer imitierbare Ressourcen die
+zu nachhaltigem Wettbewerbsvorteil führen.
 
 ## Variables
 
@@ -73,11 +72,12 @@ institutionellen Druck substanziell oder nur symbolisch reagieren.
 
 ## Data
 - Source: WRDS / Compustat Global (g_funda)
-- Sample: Österreichische exportorientierte KMU (≤250 Mitarbeiter, loc=AUT)
-- Zeitraum: 2015-2024
+- Sample: Europäische KMU gemäß EU-Definition (≤250 Mitarbeiter,
+  Jahresumsatz ≤50 Mio. EUR oder Bilanzsumme ≤43 Mio. EUR),
+  EUR-Währung, 2015-2024
 
 ## How to Reproduce
-git clone https://github.com/kramerannaa/kmu-green-logistics
+git clone https://github.com/kramerannaa/kmu-rd-performance
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 task all
