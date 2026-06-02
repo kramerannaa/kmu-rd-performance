@@ -91,4 +91,6 @@ task all
 | License | WRDS subscriber agreement |
 | Fiscal years | 2015-2024 |
 | Raw rows | 338,462 |
-| Clean rows | 26,090 |
+| EUR filter rows | 26,090 |
+| KMU filter rows | 7,878 |
+| Unique KMU | 1,495 |
