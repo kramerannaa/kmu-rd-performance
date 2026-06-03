@@ -6,10 +6,13 @@ Wie beeinflusst R&D Intensität die Firmenperformance bei europäischen KMU,
 und moderiert Firmengröße diesen Zusammenhang?
 
 ## Hypotheses
-- **H1:** Höhere R&D Intensität führt zu besserer Firmenperformance
-  bei europäischen KMU.
-- **H2:** Firmengröße moderiert den Zusammenhang zwischen R&D
-  Intensität und Performance positiv.
+- **H0:** R&D Intensität hat keinen oder einen positiven Effekt auf die
+  Firmenperformance (RoA) bei europäischen KMU.
+- **H1:** Höhere R&D Intensität führt zu niedrigerer Firmenperformance (RoA)
+  bei europäischen KMU (expensing effect).
+- **H2:** Firmengröße moderiert den negativen Zusammenhang zwischen R&D
+  Intensität und Performance positiv — bei größeren KMU ist der
+  negative Effekt schwächer.
 
 ## Theoretical Foundation
 **Absorptive Capacity (Cohen & Levinthal, 1990):**
