@@ -1,6 +1,8 @@
 ---
 title: "R&D Intensity and Firm Performance among European SMEs"
-author: "Anna Kramer | ExInt II | WU Vienna | SS 2026 | https://github.com/kramerannaa/kmu-rd-performance"
+author:
+  - name: "Anna Kramer | ExInt II | WU Vienna | SS 2026"
+  - name: "https://github.com/kramerannaa/kmu-rd-performance"
 date: "June 2026"
 bibliography: references/library.bib
 csl: references/apa.csl
