@@ -3,22 +3,30 @@ version: '3'
 tasks:
   pull:
     cmds:
-      - python3 code/01_pull_data.py
+      - python code/01_pull_data.py
 
   clean:
     deps: [pull]
     cmds:
-      - python3 code/02_clean.py
+      - python code/02_clean.py
 
   descriptives:
     deps: [clean]
     cmds:
-      - python3 code/03_descriptives.py
+      - python code/03_descriptives.py
 
   regression:
     deps: [descriptives]
     cmds:
-      - python3 code/04_regression.py
+      - python code/04_regression.py
+
+  render:
+    desc: "Render research_note.qmd to PDF via Quarto"
+    cmds:
+      - quarto render research_note.qmd
 
   all:
+    desc: "Full pipeline — analysis + PDF"
     deps: [regression]
+    cmds:
+      - quarto render research_note.qmd
