@@ -64,11 +64,11 @@ Bei europäischen KMU wird diese Dynamik durch strukturelle Ressourcenbeschränk
 >
 > **H1:** Höhere R&D-Intensität führt zu niedrigerer Firmenperformance (RoA) bei europäischen KMU (expensing effect).
 >
-> *Test: β(rd_intensity) < 0 und statistisch signifikant*
+> *Test: $\beta$(rd_intensity) < 0 und statistisch signifikant*
 >
 > **H2:** Firmengröße moderiert den negativen Zusammenhang zwischen R&D-Intensität und Performance positiv --- bei größeren KMU ist der negative Effekt schwächer.
 >
-> *Test: β(rd_intensity × ln_at) > 0*
+> *Test: $\beta$(rd_intensity × ln_at) > 0*
 
 @hashiImpactInnovationActivities2013 liefern unterstützende Evidenz dafür, dass unternehmerische Fähigkeiten eine zentrale Randbedingung des Innovations-Performance-Zusammenhangs darstellen, was die Moderationslogik von H2 stützt.
 
@@ -76,7 +76,7 @@ Bei europäischen KMU wird diese Dynamik durch strukturelle Ressourcenbeschränk
 
 ## Stichprobe
 
-Die empirische Analyse stützt sich auf jährliche Firmendaten aus der WRDS-Datenbank Compustat Global (`comp_global_daily.g_funda`). Die Stichprobe ist auf in EUR bilanzierende Unternehmen beschränkt, die die EU-KMU-Definition erfüllen ($\leq$250 Mitarbeiter, Jahresumsatz $\leq$50 Mio. EUR oder Bilanzsumme $\leq$43 Mio. EUR) über die Geschäftsjahre 2015-2024. Wir wenden gängige Datenqualitätsfilter an und verlangen mindestens drei aufeinanderfolgende Firmenjahr-Beobachtungen. Das resultierende unbalancierte Panel umfasst `{python} f"{n_obs:,}"` Firmenjahre von `{python} f"{n_firms:,}"` einzigartigen Unternehmen.
+Die empirische Analyse stützt sich auf jährliche Firmendaten aus der WRDS-Datenbank Compustat Global (`comp_global_daily.g_funda`). Die Stichprobe ist auf in EUR bilanzierende Unternehmen beschränkt, die die EU-KMU-Definition erfüllen (höchstens 250 Mitarbeiter, Jahresumsatz höchstens 50 Mio. EUR oder Bilanzsumme höchstens 43 Mio. EUR) über die Geschäftsjahre 2015-2024. Wir wenden gängige Datenqualitätsfilter an und verlangen mindestens drei aufeinanderfolgende Firmenjahr-Beobachtungen. Das resultierende unbalancierte Panel umfasst `{python} f"{n_obs:,}"` Firmenjahre von `{python} f"{n_firms:,}"` einzigartigen Unternehmen.
 
 ## Variablen
 
