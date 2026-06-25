@@ -1,9 +1,9 @@
 ---
-title: "R&D Intensity and Firm Performance among European SMEs"
+title: "Innovationsintensität und Firmenperformance europäischer KMU"
 author:
   - name: "Anna Kramer | ExInt II | WU Vienna | SS 2026"
   - name: "https://github.com/kramerannaa/kmu-rd-performance"
-date: "June 2026"
+date: "Juni 2026"
 bibliography: references/library.bib
 csl: references/apa.csl
 format:
@@ -32,121 +32,126 @@ n_firms = int(panel['gvkey'].nunique())
 rd_share = round((panel['rd_intensity'] > 0).mean() * 100, 1)
 ```
 
-# Introduction
+# Einleitung
 
-Innovation is widely regarded as a cornerstone of firm competitiveness. The resource-based view (RBV) establishes that R&D investments generate knowledge assets that are difficult to imitate, underpinning sustained competitive advantage [@barneyFirmResourcesSustained1991b. The absorptive capacity framework further argues that firms with higher R&D commitment develop a stronger ability to recognise, assimilate, and exploit external knowledge, amplifying the long-run performance benefits of innovation [@cohenAbsorptiveCapacityNew1990].
+Innovation gilt allgemein als Eckpfeiler der Wettbewerbsfähigkeit von Unternehmen. Der ressourcenbasierte Ansatz (Resource-Based View, RBV) besagt, dass R&D-Investitionen einzigartige, schwer imitierbare Ressourcen schaffen, die zu nachhaltigem Wettbewerbsvorteil führen [@barneyFirmResourcesSustained1991b]. Der Ansatz der absorptiven Kapazität argumentiert weiterführend, dass Unternehmen mit höherer R&D-Intensität eine stärkere Fähigkeit entwickeln, externes Wissen aufzunehmen und in Performance umzuwandeln [@cohenAbsorptiveCapacityNew1990].
 
-Yet this long-run optimism coexists with a striking short-run regularity: under International Financial Reporting Standards (IFRS), most R&D outlays must be expensed immediately rather than capitalised, creating a mechanical reduction in current-period earnings. This tension is particularly acute for SMEs, which typically lack the financial slack available to large multinationals to absorb short-run earnings penalties [@fazzariFinancingConstraintsCorporate1988].
+Diesem langfristigen Optimismus steht jedoch eine auffällige kurzfristige Regelmäßigkeit gegenüber: Unter den International Financial Reporting Standards (IFRS) müssen die meisten R&D-Ausgaben sofort als Aufwand verbucht werden, anstatt aktiviert zu werden, was zu einer mechanischen Verringerung des Periodenergebnisses führt. Diese Spannung ist bei KMU besonders ausgeprägt, da diesen typischerweise der finanzielle Spielraum fehlt, über den große multinationale Unternehmen verfügen, um kurzfristige Ergebniseinbußen abzufedern [@fazzariFinancingConstraintsCorporate1988].
 
-Prior empirical work documents significant heterogeneity in innovation-performance outcomes. @rosenbuschInnovationAlwaysBeneficial2011 show in a meta-analysis that the innovation-performance relationship is positive on average but highly context-dependent, while @hashiImpactInnovationActivities2013 find that the translation of innovation inputs into performance depends critically on firm capabilities and market conditions.
+Frühere empirische Arbeiten dokumentieren eine erhebliche Heterogenität im Innovations-Performance-Zusammenhang. @rosenbuschInnovationAlwaysBeneficial2011 zeigen in einer Metaanalyse, dass der Zusammenhang zwischen Innovation und Performance im Durchschnitt positiv, aber stark kontextabhängig ist, während @hashiImpactInnovationActivities2013 feststellen, dass die Umsetzung von Innovationsinputs in Performance entscheidend von den Fähigkeiten des Unternehmens und den Marktbedingungen abhängt.
 
-This research note addresses two gaps using a panel of European EUR-reporting SMEs from Compustat Global over 2015-2024. We provide within-firm causal estimates of the short-run R&D-performance relationship using two-way fixed effects (TWFE) estimation [@mundlakPoolingTimeSeries1978], and examine whether firm size moderates this relationship.
+Diese Forschungsnotiz adressiert zwei Forschungslücken anhand eines Panels europäischer, in EUR bilanzierender KMU aus Compustat Global über den Zeitraum 2015-2024. Wir liefern kausale Within-Firm-Schätzungen des kurzfristigen Zusammenhangs zwischen R&D-Intensität und Performance mittels Two-Way-Fixed-Effects-Schätzung (TWFE) [@mundlakPoolingTimeSeries1978] und untersuchen, ob die Firmengröße diesen Zusammenhang moderiert.
 
-> **Research question:** Does R&D intensity affect current-period firm performance among European SMEs, and does firm size moderate this relationship?
+> **Research Question:** Wie beeinflusst R&D-Intensität die Firmenperformance bei europäischen KMU, und moderiert Firmengröße diesen Zusammenhang?
 
-# Theoretical Background and Hypotheses
+# Theoretical Foundation und Hypothesen
 
-## R&D Intensity and Firm Performance
+## Absorptive Capacity (Cohen & Levinthal, 1990)
 
-The RBV holds that competitive advantage derives from firm-specific resources that are valuable, rare, inimitable, and non-substitutable [@barneyFirmResourcesSustained1991b. R&D investment generates proprietary knowledge and intellectual property that cannot be costlessly replicated, translating into performance advantages through product differentiation and superior absorptive capacity [@cohenAbsorptiveCapacityNew1990].
+Firmen mit höherer R&D-Intensität entwickeln eine stärkere Fähigkeit, externes Wissen aufzunehmen und in Performance umzuwandeln [@cohenAbsorptiveCapacityNew1990].
 
-However, the RBV argument pertains to the *long run*. In the short run, IFRS accounting requires R&D expenditures to be expensed in the period incurred, creating a mechanical wedge between accounting performance and underlying value creation. Every euro spent on R&D in year $t$ reduces reported RoA in year $t$, while commercial returns accrue only after a development and commercialisation lag.
+## Resource-Based View (Barney, 1991)
 
-For European SMEs, this dynamic is amplified by structural resource constraints. Unlike large multinationals, SMEs lack diversification and financial buffers that insulate performance from innovation expenditure [@fazzariFinancingConstraintsCorporate1988]. @rosenbuschInnovationAlwaysBeneficial2011 document that the innovation-performance link is weaker and more variable among smaller firms.
+R&D-Investitionen schaffen einzigartige, schwer imitierbare Ressourcen, die zu nachhaltigem Wettbewerbsvorteil führen [@barneyFirmResourcesSustained1991b].
 
-> **H1:** R&D intensity negatively affects current-period RoA among European SMEs, reflecting the immediate expensing effect under IFRS.
+Das RBV-Argument betrifft jedoch primär den *langfristigen* Horizont. Kurzfristig verlangt die IFRS-Rechnungslegung, dass R&D-Ausgaben in der Periode ihres Anfallens als Aufwand verbucht werden, was einen mechanischen Keil zwischen bilanzieller Performance und tatsächlicher Wertschöpfung schafft. Jeder in Jahr $t$ für R&D ausgegebene Euro verringert die ausgewiesene RoA in Jahr $t$, während sich die kommerziellen Erträge erst nach einer Entwicklungs- und Vermarktungsverzögerung einstellen.
+
+Bei europäischen KMU wird diese Dynamik durch strukturelle Ressourcenbeschränkungen verstärkt. Im Gegensatz zu großen multinationalen Unternehmen fehlt KMU die Diversifikation und die finanziellen Puffer, die die Performance vor Innovationsausgaben abschirmen [@fazzariFinancingConstraintsCorporate1988]. @rosenbuschInnovationAlwaysBeneficial2011 dokumentieren, dass der Zusammenhang zwischen Innovation und Performance bei kleineren Unternehmen schwächer und variabler ausfällt.
+
+## Hypothesen
+
+> **H0:** R&D-Intensität hat keinen oder einen positiven Effekt auf die Firmenperformance (RoA) bei europäischen KMU.
 >
-> *Test: β(rd_intensity) < 0 and statistically significant*
-
-## The Moderating Role of Firm Size
-
-The absorptive capacity framework [@cohenAbsorptiveCapacityNew1990] provides a basis for expecting firm size to moderate the R&D-performance relationship. Larger SMEs, with more extensive employee bases, greater functional expertise, and more financial slack, are better positioned to convert R&D inputs into commercialisable outputs. @hashiImpactInnovationActivities2013 provide supporting evidence that firm capabilities are a key boundary condition of the innovation-performance relationship.
-
-> **H2:** Firm size positively moderates the R&D intensity-RoA relationship --- larger SMEs experience a smaller earnings penalty from R&D investment.
+> **H1:** Höhere R&D-Intensität führt zu niedrigerer Firmenperformance (RoA) bei europäischen KMU (expensing effect).
+>
+> *Test: β(rd_intensity) < 0 und statistisch signifikant*
+>
+> **H2:** Firmengröße moderiert den negativen Zusammenhang zwischen R&D-Intensität und Performance positiv --- bei größeren KMU ist der negative Effekt schwächer.
 >
 > *Test: β(rd_intensity × ln_at) > 0*
 
-# Data and Method
+@hashiImpactInnovationActivities2013 liefern unterstützende Evidenz dafür, dass unternehmerische Fähigkeiten eine zentrale Randbedingung des Innovations-Performance-Zusammenhangs darstellen, was die Moderationslogik von H2 stützt.
 
-## Sample
+# Daten und Methode
 
-The empirical analysis draws on annual firm-level data from the WRDS Compustat Global database (`comp_global_daily.g_funda`). The sample is restricted to EUR-reporting firms satisfying the EU SME definition (fewer than 250 employees or total assets not exceeding €43 million) over fiscal years 2015-2024. We apply standard data quality filters and require at least three consecutive firm-year observations. The resulting unbalanced panel comprises `{python} f"{n_obs:,}"` firm-years from `{python} f"{n_firms:,}"` unique firms across 26 European countries.
+## Stichprobe
 
-## Variables
+Die empirische Analyse stützt sich auf jährliche Firmendaten aus der WRDS-Datenbank Compustat Global (`comp_global_daily.g_funda`). Die Stichprobe ist auf in EUR bilanzierende Unternehmen beschränkt, die die EU-KMU-Definition erfüllen ($\leq$250 Mitarbeiter, Jahresumsatz $\leq$50 Mio. EUR oder Bilanzsumme $\leq$43 Mio. EUR) über die Geschäftsjahre 2015-2024. Wir wenden gängige Datenqualitätsfilter an und verlangen mindestens drei aufeinanderfolgende Firmenjahr-Beobachtungen. Das resultierende unbalancierte Panel umfasst `{python} f"{n_obs:,}"` Firmenjahre von `{python} f"{n_firms:,}"` einzigartigen Unternehmen.
 
-**Dependent variable.** Firm performance is operationalised as return on assets (RoA), calculated as net income divided by total assets (`nicon / at`).
+## Variablen
 
-**Independent variable.** R&D intensity is measured as R&D expenditure divided by total assets (`xrd / at`). Firms not disclosing R&D are assigned zero. Approximately `{python} f"{rd_share}"` % of firm-years report positive R&D expenditure.
+**Dependent Variable (Y).** Firmenperformance wird primär als Return on Assets (RoA) operationalisiert, berechnet als Nettoeinkommen geteilt durch die Bilanzsumme (`nicon / at`).
 
-**Moderator.** Firm size is the natural logarithm of total assets (`log(at)`), entering both as moderator and control variable.
+**Independent Variable (X).** Die R&D-Intensität wird als R&D-Aufwand geteilt durch die Bilanzsumme gemessen (`xrd / at`). Firmen, die kein R&D ausweisen, erhalten den Wert null. Rund `{python} f"{rd_share}"` % der Firmenjahre weisen einen positiven R&D-Aufwand aus.
 
-**Control variables.** We include leverage (`dltt / at`), capital expenditure intensity (`capx / at`), and cash ratio (`che / at`). All continuous variables are winsorized at the 1st and 99th percentiles [@wilcoxIntroductionRobustEstimation2012].
+**Moderator.** Die Firmengröße ist der natürliche Logarithmus der Bilanzsumme (`log(at)`), der sowohl als Moderator als auch als Kontrollvariable eingeht.
 
-| Variable | Field(s) | Formula | Role |
-|---|---|---|---|
-| RoA | `nicon`, `at` | `nicon / at` | Dependent (Y) |
-| R&D intensity | `xrd`, `at` | `xrd.fillna(0) / at` | Independent (X) |
-| R&D × Size | --- | `rd_intensity × ln_at` | H2 interaction |
-| Firm size | `at` | `log(at)` | Moderator + Control |
-| Leverage | `dltt`, `at` | `dltt / at` | Control |
-| CAPX intensity | `capx`, `at` | `capx / at` | Control |
-| Cash ratio | `che`, `at` | `che / at` | Control |
+**Controls.** Die im Modell verwendeten Kontrollvariablen sind Leverage, Investitionsintensität (`capx / at`) und Liquiditätsquote (`che / at`). Alle stetigen Variablen werden am 1. und 99. Perzentil winsorisiert [@wilcoxIntroductionRobustEstimation2012].
 
-: Variable overview {#tbl-variables}
+| Construct | Data Item(s) | Formula |
+|---|---|---|
+| RoA | nicon, at | nicon / at |
+| R&D Intensity | xrd, at | xrd / at |
+| Firm Size | at | log(at) |
+| Leverage | dltt, dlc, seq | (dltt+dlc) / seq |
+| Cash Holdings | che, at | che / at |
+| Capital Expenditure | capx, at | capx / at |
 
-## Estimation Strategy
+: Variablenübersicht (gemäß Datendokumentation) {#tbl-variables}
 
-We estimate a two-way fixed effects (TWFE) panel model:
+## Schätzstrategie
 
-$$\text{RoA}_{it} = \beta_1 \text{R\&D}_{it} + \beta_2 (\text{R\&D} \times \text{Size})_{it} + \gamma X_{it} + \mu_i + \lambda_t + \epsilon_{it}$$
+Wir schätzen ein Two-Way-Fixed-Effects-Panelmodell (TWFE):
 
-where $\mu_i$ are firm fixed effects and $\lambda_t$ are year fixed effects. Standard errors are clustered at the firm level following @petersenEstimatingStandardErrors2009. The preference for fixed over random effects is supported by a Hausman-type comparison [@mundlakPoolingTimeSeries1978]: the FE estimate (-0.534) diverges substantially from the RE estimate (-0.777), consistent with correlation between firm-level unobservables and R&D intensity.
+$$\text{RoA}_{it} = \beta_1 \text{R\&D}_{it} + \beta_2 (\text{R\&D} \times \text{Größe})_{it} + \gamma X_{it} + \mu_i + \lambda_t + \epsilon_{it}$$
 
-# Results
+wobei $\mu_i$ Firmen-Fixed-Effects und $\lambda_t$ Jahres-Fixed-Effects darstellen. Die Standardfehler werden auf Firmenebene geclustert, gemäß @petersenEstimatingStandardErrors2009. Die Präferenz für Fixed Effects gegenüber Random Effects wird durch einen Hausman-artigen Vergleich gestützt [@mundlakPoolingTimeSeries1978]: Der FE-Schätzer (-0.534) weicht erheblich vom RE-Schätzer (-0.777) ab, was mit einer Korrelation zwischen firmenspezifischen unbeobachteten Faktoren und der R&D-Intensität übereinstimmt.
 
-## Descriptive Statistics
+# Ergebnisse
+
+## Deskriptive Statistik
 
 ```{python}
 #| label: tbl-summary
-#| tbl-cap: "Descriptive statistics. Continuous variables winsorized at 1st-99th percentiles."
+#| tbl-cap: "Deskriptive Statistik. Stetige Variablen am 1.-99. Perzentil winsorisiert."
 summary.round(3)
 ```
 
-The RoA distribution exhibits left-skew typical of SME panel data: the median of `{python} f"{panel['roa'].median():.3f}"` indicates marginal profitability, while the mean of `{python} f"{panel['roa'].mean():.3f}"` is pulled below by loss-making firms. R&D intensity has a median of zero --- only `{python} f"{rd_share}"` % of firm-years report positive R&D, consistent with the concentration of formal R&D investment among a minority of technologically active SMEs [@rosenbuschInnovationAlwaysBeneficial2011].
+Die Verteilung der RoA weist die für KMU-Paneldaten typische Linksschiefe auf: Der Median von `{python} f"{panel['roa'].median():.3f}"` deutet auf eine marginale Profitabilität hin, während der Mittelwert von `{python} f"{panel['roa'].mean():.3f}"` durch verlustbringende Unternehmen nach unten gezogen wird. Die R&D-Intensität hat einen Median von null --- nur `{python} f"{rd_share}"` % der Firmenjahre weisen positive R&D aus, was mit der Konzentration formeller R&D-Investitionen auf eine Minderheit technologisch aktiver KMU übereinstimmt [@rosenbuschInnovationAlwaysBeneficial2011].
 
-![R&D intensity versus RoA for R&D-active firms (left) and median RoA by firm size for firms with and without R&D expenditure (right).](output/figures/main_relationship.png){width=90%}
+![R&D-Intensität versus RoA für R&D-aktive Unternehmen (links) und Median-RoA nach Firmengröße für Unternehmen mit und ohne R&D-Aufwand (rechts).](output/figures/main_relationship.png){width=90%}
 
-![Pairwise correlation matrix for research variables.](output/figures/correlation_matrix.png){width=70%}
+![Paarweise Korrelationsmatrix der Forschungsvariablen.](output/figures/correlation_matrix.png){width=70%}
 
-## Regression Results
+## Regressionsergebnisse
 
 ```{python}
 #| label: tbl-regression
-#| tbl-cap: "Regression results. Dependent variable: RoA. Clustered SEs at firm level in Models (2)-(3). * p<0.10, ** p<0.05, *** p<0.01."
+#| tbl-cap: "Regressionsergebnisse. Dependent Variable: RoA. Geclusterte Standardfehler auf Firmenebene in Modellen (2)-(3). * p<0.10, ** p<0.05, *** p<0.01."
 results[['(1) OLS', '(2) TWFE', '(3) TWFE+H2']]
 ```
 
-**H1 --- R&D intensity and RoA.** R&D intensity enters with a negative and significant coefficient across all specifications. The TWFE estimate (Model 2) is $\hat{\beta}_1 =$ -0.534 (p < 0.01). **H1 is supported.** Expensing R&D under IFRS creates an immediate drag on profitability [@cohenAbsorptiveCapacityNew1990; @hashiImpactInnovationActivities2013].
+**H1 --- R&D-Intensität und RoA.** Die R&D-Intensität geht in allen Spezifikationen mit einem negativen und signifikanten Koeffizienten ein. Der TWFE-Schätzer (Modell 2) beträgt $\hat{\beta}_1 =$ -0.534 (p < 0.01). **H0 wird verworfen, H1 wird bestätigt.** Die Verbuchung von R&D als Aufwand unter IFRS erzeugt eine unmittelbare Belastung der Profitabilität [@cohenAbsorptiveCapacityNew1990; @hashiImpactInnovationActivities2013].
 
-The OLS coefficient (-0.784) exceeds the TWFE coefficient by 32% in absolute magnitude, consistent with omitted variable bias. Firm fixed effects eliminate this confound by exploiting only within-firm variation over time [@mundlakPoolingTimeSeries1978].
+Der OLS-Koeffizient (-0.784) übersteigt den TWFE-Koeffizienten betragsmäßig um 32%, was auf eine Verzerrung durch ausgelassene Variablen hindeutet. Firmen-Fixed-Effects beseitigen dieses Störproblem, indem sie ausschließlich Within-Firm-Variation über die Zeit nutzen [@mundlakPoolingTimeSeries1978].
 
-**H2 --- Firm size as moderator.** The interaction term (Model 3) is positive ($\hat{\beta}_2 =$ 0.060) but not significant (p = 0.425). **H2 is not supported**, though the direction is consistent with absorptive capacity theory [@cohenAbsorptiveCapacityNew1990].
+**H2 --- Firmengröße als Moderator.** Der Interaktionsterm (Modell 3) ist positiv ($\hat{\beta}_2 =$ 0.060), aber nicht signifikant (p = 0.425). **H2 wird nicht bestätigt**, wenngleich die Richtung mit der Theorie der absorptiven Kapazität übereinstimmt --- bei größeren KMU ist der negative Effekt tendenziell schwächer, aber statistisch nicht eindeutig nachweisbar [@cohenAbsorptiveCapacityNew1990].
 
-# Discussion and Conclusion
+# Discussion und Conclusion
 
 ## Discussion
 
-The finding that R&D intensity negatively affects current-period RoA does not imply R&D destroys value. Rather, it reflects the temporal mismatch in IFRS accounting: SMEs bear the full accounting cost of R&D immediately, while accruing benefits across subsequent periods --- the necessary price of building durable knowledge assets [@barneyFirmResourcesSustained1991b @cohenAbsorptiveCapacityNew1990].
+Der Befund, dass die R&D-Intensität die RoA der laufenden Periode negativ beeinflusst, impliziert nicht, dass R&D Wert vernichtet. Vielmehr spiegelt er die zeitliche Diskrepanz in der IFRS-Rechnungslegung wider: KMU tragen die vollen bilanziellen Kosten von R&D unmittelbar, während sich die Erträge über nachfolgende Perioden hinweg einstellen --- der notwendige Preis für den Aufbau dauerhafter, schwer imitierbarer Ressourcen im Sinne der Resource-Based View [@barneyFirmResourcesSustained1991b; @cohenAbsorptiveCapacityNew1990].
 
-This has policy implications. If the short-run earnings penalty is visible to lenders and investors relying on accounting metrics, it may create a bias against R&D commitment among SMEs under profitability pressure [@fazzariFinancingConstraintsCorporate1988]. R&D tax credits or innovation subsidies may partially offset this deterrent.
+Dies hat politische Implikationen. Wenn die kurzfristige Ergebniseinbuße für Kreditgeber und Investoren sichtbar ist, die sich auf bilanzielle Kennzahlen stützen, könnte dies eine Verzerrung gegen R&D-Engagement bei KMU unter Profitabilitätsdruck erzeugen [@fazzariFinancingConstraintsCorporate1988]. R&D-Steuergutschriften oder Innovationsförderungen könnten diesen Abschreckungseffekt teilweise ausgleichen.
 
 ## Conclusion
 
-This research note examines the short-run effect of R&D intensity on firm performance among European SMEs using `{python} f"{n_obs:,}"` firm-years from `{python} f"{n_firms:,}"` firms across 26 countries over 2015-2024. H1 is strongly supported: higher R&D intensity is associated with significantly lower RoA ($\hat{\beta} =$ -0.534, p < 0.01), with the effect attenuated by 32% once firm fixed effects are controlled. H2 is not supported at conventional significance levels.
+Diese Forschungsnotiz untersucht den kurzfristigen Effekt der R&D-Intensität auf die Firmenperformance bei europäischen KMU anhand von `{python} f"{n_obs:,}"` Firmenjahren von `{python} f"{n_firms:,}"` Unternehmen über den Zeitraum 2015-2024. H0 wird verworfen, H1 wird stark bestätigt: Eine höhere R&D-Intensität geht mit einer signifikant niedrigeren RoA einher ($\hat{\beta} =$ -0.534, p < 0.01), wobei sich der Effekt um 32% abschwächt, sobald Firmen-Fixed-Effects kontrolliert werden. H2 wird auf konventionellen Signifikanzniveaus nicht bestätigt.
 
-Three limitations apply: measurement error from zero-imputation of non-disclosing firms; the 10-year window may not span the full R&D payoff cycle; and Compustat coverage skews toward listed firms, limiting generalisation to private SMEs.
+Drei Einschränkungen sind zu nennen: Messfehler durch die Null-Imputation nicht berichtender Unternehmen; das 10-Jahres-Fenster deckt möglicherweise nicht den vollständigen R&D-Auszahlungszyklus ab; und die Compustat-Abdeckung ist zugunsten börsennotierter Unternehmen verzerrt, was die Generalisierbarkeit auf private KMU einschränkt.
 
-# References
+# Literaturverzeichnis
 
 ::: {#refs}
 :::
