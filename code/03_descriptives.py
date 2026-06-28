@@ -178,7 +178,7 @@ mask = np.triu(np.ones_like(corr, dtype=bool))
 sns.heatmap(corr, mask=mask, annot=True, fmt=".2f",
             cmap="RdYlBu_r", center=0, vmin=-1, vmax=1,
             linewidths=0.5, ax=ax, cbar_kws={"shrink": 0.8})
-ax.set_title("Korrelationsmatrix — Forschungsvariablen (Europäische KMU)",
+ax.set_title("Correlation Matrix — Research Variables (European SMEs)",
              fontsize=13, color=WU_BLUE)
 fig.tight_layout()
 fig.savefig(FIG_PATH / "correlation_matrix.png", dpi=150)
@@ -193,7 +193,7 @@ axes[0].axvline(df["roa"].mean(),   color=WU_RED,   lw=2,
 axes[0].axvline(df["roa"].median(), color="orange", lw=2, ls="--",
                 label=f"Median = {df['roa'].median():.3f}")
 axes[0].set_xlabel("RoA")
-axes[0].set_title("Verteilung von RoA (nicon/at)", color=WU_BLUE)
+axes[0].set_title("Distribution of RoA (nicon/at)", color=WU_BLUE)
 axes[0].legend()
 
 yearly = df.groupby("fyear")["roa"].median()
@@ -201,7 +201,7 @@ axes[1].bar(yearly.index, yearly.values, color=WU_BLUE, alpha=0.8)
 axes[1].axhline(0, color="black", lw=0.8, ls="--")
 axes[1].set_xlabel("Fiscal Year")
 axes[1].set_ylabel("Median RoA")
-axes[1].set_title("Median RoA nach Jahr", color=WU_BLUE)
+axes[1].set_title("Median RoA by Year", color=WU_BLUE)
 fig.tight_layout()
 fig.savefig(FIG_PATH / "dv_distribution.png", dpi=150)
 plt.close()
@@ -220,16 +220,16 @@ bm   = df_rd.groupby(bins, observed=True)[["rd_intensity","roa"]].mean()
 axes[0].plot(bm["rd_intensity"], bm["roa"],
              color=WU_RED, lw=2.5, label="Bin mean")
 axes[0].axhline(0, color="gray", lw=0.8, ls="--")
-axes[0].set_xlabel("R&D Intensität (xrd/at)")
+axes[0].set_xlabel("R&D Intensity (xrd/at)")
 axes[0].set_ylabel("RoA")
-axes[0].set_title("R&D Intensität vs. RoA\n(nur Firmen mit R&D > 0)", color=WU_BLUE)
+axes[0].set_title("R&D Intensity vs. RoA\n(R&D-active firms only)", color=WU_BLUE)
 axes[0].legend()
 
 # Right: median RoA by firm size bin — No R&D vs Has R&D
 df_plot["rd_group"]  = np.where(df_plot["rd_intensity"] == 0,
-                                "Kein R&D (xrd=0)", "Hat R&D (xrd>0)")
+                                "No R&D (xrd=0)", "Has R&D (xrd>0)")
 df_plot["size_bin"]  = pd.cut(df_plot["ln_at"], bins=10)
-palette2 = {"Kein R&D (xrd=0)": "#2166ac", "Hat R&D (xrd>0)": WU_RED}
+palette2 = {"No R&D (xrd=0)": "#2166ac", "Has R&D (xrd>0)": WU_RED}
 for label, group in df_plot.groupby("rd_group", observed=True):
     g  = group.reset_index(drop=True)
     bm = g.groupby("size_bin", observed=True)[["ln_at","roa"]].median()
@@ -237,13 +237,13 @@ for label, group in df_plot.groupby("rd_group", observed=True):
                  label=label, color=palette2[label],
                  marker="o", markersize=5)
 axes[1].axhline(0, color="gray", lw=0.8, ls="--")
-axes[1].set_xlabel("Firmengröße (log assets)")
+axes[1].set_xlabel("Firm Size (log assets)")
 axes[1].set_ylabel("Median RoA")
-axes[1].set_title("Median RoA nach Firmengröße:\nKein R&D vs Hat R&D",
+axes[1].set_title("Median RoA by Firm Size:\nNo R&D vs Has R&D",
                   color=WU_BLUE)
 axes[1].legend()
 
-fig.suptitle("Hauptzusammenhang: R&D Intensität → RoA (Europäische KMU)",
+fig.suptitle("Main Relationship: R&D Intensity → RoA (European SMEs)",
              fontsize=13, color=WU_BLUE, y=1.02)
 fig.tight_layout()
 fig.savefig(FIG_PATH / "main_relationship.png", dpi=150, bbox_inches="tight")
