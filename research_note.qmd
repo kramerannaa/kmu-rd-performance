@@ -1,7 +1,7 @@
 ---
 title: "R&D Intensity and Firm Performance among European SMEs"
 subtitle: "A Panel Data Analysis using Compustat Global"
-author: "Anna Kramer | ExInt II | WU Vienna | SS 2026 | https://github.com/kramerannaa/kmu-rd-performance"
+author: "Anna Kramer | ExInt II | WU Vienna | SS 2026"
 date: today
 format:
   pdf:
@@ -14,6 +14,10 @@ execute:
   echo: false
   warning: false
 ---
+
+\begin{center}
+\url{https://github.com/kramerannaa/kmu-rd-performance}
+\end{center}
 
 ```{python}
 #| echo: false
