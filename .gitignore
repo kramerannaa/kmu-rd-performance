@@ -15,4 +15,8 @@ references/*.pdf
 # ── OS ────────────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
-research_note.pdf
+
+# Quarto build artifacts
+.quarto/
+research_note_files/
+research_note.typ
