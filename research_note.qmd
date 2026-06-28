@@ -20,31 +20,13 @@ execute:
 import pandas as pd
 import numpy as np
 
-# NOTE: adjust this path if your cleaned panel lives elsewhere
-df = pd.read_parquet("data/processed/panel_clean.parquet")
-
-# Data quality filter: drop firm-years with non-positive total assets
-# (at <= 0 or missing breaks every ratio built on at, and log(at) is undefined)
-df = df[df["at"] > 0].copy()
-
-# Derived variables (raw Compustat fields -> research variables)
-df.loc[:, "roa"] = df["nicon"] / df["at"]
-df.loc[:, "rd_intensity"] = df["xrd"] / df["at"]
-df.loc[:, "ln_at"] = np.log(df["at"])
-df.loc[:, "capx_intensity"] = df["capx"] / df["at"]
-df.loc[:, "cash_ratio"] = df["che"] / df["at"]
-
-# Leverage requires seq > 0 (negative/zero equity makes the ratio meaningless)
-df = df[df["seq"] > 0].copy()
-df.loc[:, "leverage"] = (df["dltt"] + df["dlc"]) / df["seq"]
-
-# Drop any remaining rows with missing values in core variables
-core_vars = ["roa", "rd_intensity", "ln_at", "leverage", "capx_intensity", "cash_ratio"]
-df = df.dropna(subset=core_vars).copy()
+# Loads the fully processed panel produced by code/03_descriptives.py
+# (run `python code/03_descriptives.py` first if this file does not exist yet)
+df = pd.read_parquet("data/processed/panel_with_vars.parquet")
 
 n_obs = len(df)
 n_firms = df["gvkey"].nunique()
-rd_share = round((df["xrd"] / df["at"] > 0).mean() * 100, 1)
+rd_share = round((df["rd_intensity"] > 0).mean() * 100, 1)
 roa_mean = round(df["roa"].mean(), 3)
 roa_median = round(df["roa"].median(), 3)
 ```
@@ -93,9 +75,9 @@ For European SMEs, this dynamic is amplified by structural resource constraints.
 
 ### 3.1 Sample
 
-The empirical analysis draws on annual firm-level data from the WRDS Compustat Global database (`comp_global_daily.g_funda`). The sample is restricted to EUR-reporting firms satisfying the EU SME definition (at most 250 employees, annual revenue at most EUR 50 million, or total assets at most EUR 43 million) over fiscal years 2015–2024.
+The empirical analysis draws on annual firm-level data from the WRDS Compustat Global database (`comp_global_daily.g_funda`). The sample is restricted to EUR-reporting firms satisfying the EU SME definition (at most 250 employees, or total assets at most EUR 43 million) over fiscal years 2015–2024.
 
-We apply standard data quality filters — requiring strictly positive total assets and positive shareholder equity, since both enter the denominator of core ratios — and require at least three consecutive firm-year observations per firm. The resulting unbalanced panel comprises `{python} f"{n_obs:,}"` firm-years from `{python} f"{n_firms:,}"` unique firms.
+We apply standard data quality filters, requiring strictly positive total assets, sales, and shareholder equity, and require at least three consecutive firm-year observations per firm. The resulting unbalanced panel comprises `{python} f"{n_obs:,}"` firm-years from `{python} f"{n_firms:,}"` unique firms.
 
 ### 3.2 Variables
 
@@ -113,7 +95,7 @@ We apply standard data quality filters — requiring strictly positive total ass
 | R&D Intensity | `xrd`, `at` | `xrd / at` | Independent (X) |
 | R&D × Size | — | `xrd/at × log(at)` | H2 interaction |
 | Firm Size | `at` | `log(at)` | Moderator + Control |
-| Leverage | `dltt`, `dlc`, `seq` | `(dltt+dlc) / seq` | Control |
+| Leverage | `dltt`, `at` | `dltt / at` | Control |
 | Cash Ratio | `che`, `at` | `che / at` | Control |
 | CAPX Intensity | `capx`, `at` | `capx / at` | Control |
 
@@ -143,7 +125,7 @@ desc = pd.DataFrame({
     "RoA (nicon/at)": df["roa"],
     "R&D Intensity (xrd/at)": df["rd_intensity"],
     "Firm Size (log assets)": df["ln_at"],
-    "Leverage (dltt+dlc/seq)": df["leverage"],
+    "Leverage (dltt/at)": df["leverage"],
     "CAPX Intensity (capx/at)": df["capx_intensity"],
     "Cash Ratio (che/at)": df["cash_ratio"],
 }).describe().T[["count", "mean", "std", "min", "25%", "50%", "75%", "max"]]
@@ -152,6 +134,10 @@ desc.round(3)
 ```
 
 The distribution of RoA shows the left skew typical of SME panel data: a median of `{python} f"{roa_median}"` indicates marginal profitability for the typical firm-year, while a mean of `{python} f"{roa_mean}"` is pulled downward by loss-making firms. R&D intensity has a median of zero — only `{python} f"{rd_share}"`% of firm-years report positive R&D expenditure, consistent with the concentration of formal R&D investment among a minority of technologically active SMEs [@rosenbuschInnovationAlwaysBeneficial2011].
+
+![R&D intensity versus RoA for R&D-active firms (left) and median RoA by firm size for firms with and without R&D expenditure (right).](output/figures/main_relationship.png){#fig-rd-roa}
+
+![Pairwise correlation matrix of the research variables.](output/figures/correlation_matrix.png){#fig-corr}
 
 ### 4.2 Regression Results
 
